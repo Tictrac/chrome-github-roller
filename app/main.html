@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="rollup" ng-csp>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css" type="screen">
+    <link rel="stylesheet" href="vendor/angular/angular-csp.css" type="screen">
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <title>GitHub Roller</title>
+</head>
+
+<body ng-controller="MainController">
+
+    <div class="container">
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <span class="navbar-brand">GitHub Roller</span>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ repo.htmlUrl }}" target="_blank" ng-show="repo.htmlUrl">{{ repo.name }} on GitHub</a></li>
+                        <li><a href="#" ng-click="openSettings(); $event.preventDefault()"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+                        <li><a href="#" ng-click="refresh(); $event.preventDefault()"><span class="glyphicon glyphicon-refresh"></span> Refresh</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <p class="text-center" ng-show="state.loading">Loading...</p>
+        <p class="text-center" ng-show="state.error">There was an error. Please make sure all of your <a ng-click="openSettings()" href="#">settings</a> are correct.</p>
+
+        <div ng-show="!state.loading && !state.error">
+            <div class="panel panel-default" ng-repeat="up in ups">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {{ up.head.name }} <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> {{ up.base.name }}
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-info" role="alert" ng-show="!up.diff || !up.pr">Checking...</div>
+                    <div ng-show="up.diff && up.pr">
+                        <div class="alert alert-success" ng-show="up.diff.aheadBy === 0">Up to date</div>
+                        <div class="alert alert-warning" ng-show="up.diff && up.diff.aheadBy !== 0 && up.pr.id">{{ up.diff.aheadBy }} commits ahead, PR open</div>
+                        <div class="alert alert-danger" ng-show="up.diff && up.diff.aheadBy !== 0 && !up.pr.id">{{ up.diff.aheadBy }} commits ahead, no PR open</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-md-4">
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-default" ng-class="{'disabled' : !up.diff.htmlUrl || up.diff.aheadBy === 0 }" target="_blank" href="{{ up.diff.htmlUrl }}">View diff</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4">
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-default" ng-class="{'disabled' : !up.pr.htmlUrl }" target="_blank" href="{{ up.pr.htmlUrl }}">View PR</a>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4">
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-default btn-primary" ng-class="{'disabled' : !up.pr || up.pr.id || up.diff.aheadBy === 0 }" ng-click="createPR(up)">Create PR</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="vendor/jquery/dist/jquery.min.js"></script>
+    <script src="vendor/underscore/underscore.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendor/angular/angular.min.js"></script>
+    <script src="vendor/octokat/dist/octokat.js"></script>
+    <script src="scripts/main.js"></script>
+
+</body>
+</html>

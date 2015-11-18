@@ -1,0 +1,34 @@
+{
+  "name": "__MSG_appName__",
+  "version": "0.0.20",
+  "manifest_version": 2,
+  "description": "__MSG_appDescription__",
+  "icons": {
+    "32": "images/icon-32.png",
+    "64": "images/icon-64.png",
+    "120": "images/icon-120.png",
+    "128": "images/icon-128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "scripts/dev/chromereload.js",
+      "scripts/background.js"
+    ]
+  },
+  "browser_action": {
+    "default_title": "__MSG_appName__",
+    "default_icon": "images/icon-32.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "omnibox": {
+    "keyword": "rollup"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css" type="screen">
+    <link rel="stylesheet" href="styles/options.css">
+    <title>GitHub Roller Options</title>
+</head>
+
+<body>
+    <label for="token">OAuth Token</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="token" placeholder="">
+        <span class="description">
+            <a href="https://github.com/settings/tokens/new?scopes=repo&description=GitHub Roller" target="gh_target">Create a token</a> with the 'repo' scope and add it here
+        </span>
+    </div>
+
+    <label for="token">Repo Owner</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="user" placeholder="e.g myorganisation">
+    </div>
+
+    <label for="repo">Repo Name</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="repo" placeholder="e.g. myrepo">
+    </div>
+
+    <label for="regex">Branch regex</label>
+    <div class="input-group">
+        <input type="text" class="form-control" id="regex" placeholder="e.g. ^(master|[0-9]+\.[0-9]+.*)$">
+        <span class="description">Only branch names matching this will show in the rollup list</span>
+    </div>
+
+    <a id="save" class="btn btn-default btn-primary">Save</a> <span id="status"></span>
+    <script src="scripts/options.js"></script>
+</body>
+</html>
