@@ -55,8 +55,8 @@
     "node": true,
 
     "globals": {
-        "angular": false,
         "chrome": false,
+        "angular": false,
         "Octokat": false,
         "$": false,
         "inject": false,
@@ -77,7 +77,6 @@
         "browser": false,
         "module": false,
         "input": false,
-        "Raven": false,
         "confirm": false,
         "element": false
     }
